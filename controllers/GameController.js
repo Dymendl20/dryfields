@@ -1,6 +1,6 @@
-function GameController(game, user) {
-    this.model.game = game;
-    this.model.user = user;
+function GameController(field, user) {
+    this.field = field;
+    this.user = user;
 }
 
 UserController.prototype.update = function(label, data) {
