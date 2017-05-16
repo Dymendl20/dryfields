@@ -1,5 +1,5 @@
 window.onload = function() {
-    // var game = new Game();
-    var game = 'test';
-    var view = new View(game);
+    // var field = new Field();
+    var field = 'test';
+    var view = new View(field);
 }
