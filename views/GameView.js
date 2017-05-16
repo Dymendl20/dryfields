@@ -4,15 +4,38 @@ function GameView(game) {
     this.init();
 }
 
-View.prototype = Object.create(EventEmitter.prototype);
-View.prototype.conscructor = View;
+GameView.prototype = Object.create(EventEmitter.prototype);
+GameView.prototype.conscructor = GameView;
 
-View.prototype.init = function() {
+GameView.prototype.init = function() {
     $('#menu-achat').submit(this.waterBought.bind(this))
+    $('#popin-eau').click(this.buyWater.bind(this))
 }
 
-View.prototype.waterBought = function(e) {
+GameView.prototype.waterBought = function(e) {
     e.preventDefault();
     var liters = $('#eau-qty').val();
-    this.emit('water-bought', { quantity: liters });
+    this.emit('water-bought', {quantity: liters});
 }
+
+GameView.prototype.buyWater= function(){
+    var targetElement;
+    targetElement = document.getElementById("achat-eau") ;
+    if ($('#achat-eau').css( "visibility", "hidden" ))
+    {
+        $('#achat-eau').show('Acheter');
+    } else {
+        $('#achat-eau').hide('Acheter');
+    }
+
+    // $('#achat-eau').hide('Acheter');
+    // $('#achat-eau').show('Acheter');
+
+}
+
+
+
+
+
+
+
