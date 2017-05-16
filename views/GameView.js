@@ -1,18 +1,20 @@
-function GameView(game) {
+function GameView(fields) {
     EventEmitter.call(this);
-    this.game = game;
+    this.fields = fields;
     this.init();
 }
 
-View.prototype = Object.create(EventEmitter.prototype);
-View.prototype.conscructor = View;
+GameView.prototype = Object.create(EventEmitter.prototype);
+GameView.prototype.conscructor = GameView;
 
-View.prototype.init = function() {
+GameView.prototype.init = function () {
     $('#menu-achat').submit(this.waterBought.bind(this))
 }
 
-View.prototype.waterBought = function(e) {
+GameView.prototype.waterBought = function (e) {
     e.preventDefault();
     var liters = $('#eau-qty').val();
-    this.emit('water-bought', { quantity: liters });
+    this.emit('water-bought', {
+        quantity: liters
+    });
 }
