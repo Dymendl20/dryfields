@@ -1,6 +1,6 @@
-function GameView(field) {
+function GameView(fields) {
     EventEmitter.call(this);
-    this.field = field;
+    this.fields = fields;
     this.init();
 }
 
@@ -14,5 +14,8 @@ GameView.prototype.init = function() {
 GameView.prototype.waterBought = function(e) {
     e.preventDefault();
     var liters = $('#eau-qty').val();
-    this.emit('water-bought', { quantity: liters });
+    this.emit('water-bought', {
+        quantity: liters
+    });
+
 }
