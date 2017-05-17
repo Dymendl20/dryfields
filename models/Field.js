@@ -14,6 +14,10 @@ function Field() {
 Field.prototype = Object.create(EventEmitter.prototype);
 Field.prototype.constructor = Field;
 
+Field.prototype.setWater = function(water) {
+    this.waterSupplie = water;
+    this.emit('update-water');
+}
 
 Field.prototype.update = function() {
     this.emit('harvest-update', {

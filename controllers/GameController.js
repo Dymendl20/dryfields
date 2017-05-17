@@ -15,22 +15,25 @@ GameController.prototype.init = function() {
     this.interval = setInterval(this.gardening.bind(this), 1000)
     this.loseCondition();
     this.watering();
-    this.view.on('harvest'), (function(data) {
-        console.log('bite')
-        this.user.money += this.user.harvestGain;
+    this.view.on('harvest', (function(data) {
+        this.user.setHarvests(this.user.harvests + 1)
+        this.user.setMoney(this.user.money + 50); // remplacer 50 par la valeur de la vente
+        console.log(this.user.money);
         this.fields[data.number - 1].harvestProgress = 0;
-    }).bind(this)
+    }).bind(this))
 
     this.view.on('water-bought', (function(data) {
         if (this.user.money > 0) {
             this.user.water += parseInt(data.quantity);
-            this.user.money -= parseFloat(this.fields[0].waterPrice * data.quantity)
+            this.user.setMoney(this.user.money - parseFloat(this.fields[0].waterPrice * data.quantity))
         }
     }).bind(this))
     this.view.on('watered', (function(data) {
-        this.fields[data.number - 1].waterSupplie++;
-        console.log(this.fields[data.number - 1].waterSupplie);
-        this.user.water--;
+        if (this.user.water > 0) {
+            var field = this.fields[data.number - 1];
+            field.setWater(field.waterSupplie + 1);
+            this.user.setWater(this.user.water - 1);
+        }
     }).bind(this))
 }
 
@@ -49,7 +52,7 @@ GameController.prototype.waterComsuption = function() {
     this.gameOverTimer += 1
     this.fields.forEach(function(field) {
         if (field.harvestProgress < 100) {
-            field.waterSupplie -= Math.floor(parseFloat(field.consumption));
+            field.waterSupplie -= (parseFloat(field.consumption));
             if (field.waterSupplie < 0) {
                 field.waterSupplie = 0;
             }
