@@ -27,8 +27,6 @@ GameController.prototype.gardening = function() {
     this.loseCondition();
 }
 
-
-
 GameController.prototype.waterComsuption = function() {
     this.gameOverTimer += 1
     this.fields.forEach(function(field) {
@@ -46,11 +44,16 @@ GameController.prototype.waterComsuption = function() {
 GameController.prototype.watering = function() {
     this.fields.forEach(function(field) {
         if (field.waterSupplie > 0) {
-            field.harvestProgress += 10
+            field.harvestProgress += 10;
         } else {
-            field.harvestProgress -= 10
+            field.harvestProgress -= 10;
+
             if (field.harvestProgress < 0) {
                 field.harvestProgress = 0;
+            }
+
+            if (field.harvestProgress >= 100) {
+                field.harvestProgress = 100;
             }
         }
     }, this);
@@ -84,7 +87,6 @@ GameController.prototype.gameOver = function() {
 GameController.prototype.update = function(label, data) {
 
     if (label == 'recolte_mure') {
-
-        this.model.game.setRecolter(data.recolter);
+        this.view.setRecolter(data.recolter);
     }
 }

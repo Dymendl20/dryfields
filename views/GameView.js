@@ -1,6 +1,7 @@
-function GameView(fields) {
+function GameView(fields, user) {
     EventEmitter.call(this);
     this.fields = fields;
+    this.user = user;
     this.init();
 }
 
