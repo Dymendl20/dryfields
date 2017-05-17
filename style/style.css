@@ -1,0 +1,13 @@
+#infos {
+    display: flex;
+}
+
+#infos>div {
+    margin: 5px
+}
+
+#fields {
+    display: flex
+}
+
+#fields>div {}

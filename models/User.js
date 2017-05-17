@@ -6,5 +6,13 @@ function User() {
     this.harvests = 0;
 }
 
-Field.prototype = Object.create(EventEmitter.prototype);
-Field.prototype.constructor = Field;
+User.prototype = Object.create(EventEmitter.prototype);
+User.prototype.constructor = User;
+
+User.prototype.update = function() {
+    this.emit('infos-update', {
+        harvests: this.harvests,
+        water: this.water,
+        money: this.money
+    })
+}

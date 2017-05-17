@@ -1,69 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="./style/style.css" rel="stylesheet">
-        <script src="./tools/jquery-3.2.1.js"></script>
-        <script src="./tools/EventEmitter.js"></script>
-        <script src="./controllers/GameController.js"></script>
-        <script src="./models/Field.js"></script>
-        <script src="./models/User.js"></script>
-        <script src="./views/GameView.js"></script>
-        <script src="./views/ScoreView.js"></script>
-        <script src="./dryfields.js"></script>
-    </head>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./style/style.css" rel="stylesheet">
+    <script src="./tools/jquery-3.2.1.js"></script>
+    <script src="./tools/EventEmitter.js"></script>
+    <script src="./controllers/GameController.js"></script>
+    <script src="./models/Field.js"></script>
+    <script src="./models/User.js"></script>
+    <script src="./views/GameView.js"></script>
+    <script src="./views/ScoreView.js"></script>
+    <script src="./dryfields.js"></script>
+</head>
 
-    <body>
-        <section id="infos">
-            <div id="recoltes">
+<body>
+    <section id="infos">
+        <div id="harvests">
 
-            </div>
+        </div>
+        <div id="water">
+
+        </div>
+        <div id="money">
+
+        </div>
 
 
-        </section>
-        <section id=champ1>
-            <div id="irrig-chp1">
+    </section>
+    <section id="fields">
+        <div id=1>
+            <button id="irrig-chp1">Remplir</button>
+            <div id="citerne-champ1">
 
             </div>
             <div id="etat-champ1">
 
             </div>
-            <div id="recolt-chp1">
-
-            </div>
-        </section>
-        <section id=champ2>
-            <div id="irrig-chp2">
+            <button id="recolt-chp1">Récoltez moi !</button>
+        </div>
+        <div id=2>
+            <button id="irrig-chp2">Remplir</button>
+            <div id="citerne-champ2">
 
             </div>
             <div id="etat-champ2">
 
             </div>
-            <div id="recolt-chp2">
-
-            </div>
-        </section>
-        <section id=champ3>
-            <div id="irrig-chp3">
+            <button id="recolt-chp2">Récoltez moi !</button>
+        </div>
+        <div id=3>
+            <button id="irrig-chp3">Remplir</button>
+            <div id="citerne-champ3">
 
             </div>
             <div id="etat-champ3">
 
             </div>
-            <div id="recolt-chp3">
+            <button id="recolt-chp3">Récoltez moi !</button>
+        </div>
 
-            </div>
-        </section>
-        <button id="popin-eau">Acheter de l'eau</button>
-        <section id="achat-eau">
-            <form id="menu-achat">
-                <input type="number" name="quantity" id="eau-qty">
-                <input type="submit" name="buy" value="Acheter">
-            </form>
-        </section>
-    </body>
+    </section>
+    <button id="popin-eau">Acheter de l'eau</button>
+    <section id="achat-eau">
+        <form id="menu-achat">
+            <input type="number" name="quantity" id="eau-qty">
+            <input type="submit" name="buy" value="Acheter">
+        </form>
+    </section>
+</body>
 
 </html>
