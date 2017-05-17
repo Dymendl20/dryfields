@@ -3,8 +3,7 @@ function GameController(fields, user, view) {
     this.fields = fields;
     this.user = user;
     this.view = view;
-    console.log(this.view);
-    this.gameOverTimer = setTimeout(this.gameOver, 900000);
+    this.gameOverTimer = 0;
     this.init();
 }
 
@@ -12,43 +11,77 @@ GameController.prototype = Object.create(EventEmitter.prototype);
 GameController.prototype.conscructor = GameController;
 
 
-GameController.prototype.init = function () {
-    console.log(this.user)
-    this.view.on('water-bought', function (data) {
+GameController.prototype.init = function() {
+    this.interval = setInterval(this.gardening.bind(this), 10)
+    this.loseCondition();
+    this.watering();
+    this.view.on('water-bought', function(data) {
         this.user.water += parseInt(data.quantity);
-        this.user.money -= parseInt(1 * data.quantity)
-        console.log(this.user)
+        this.user.money -= parseFloat(1 * data.quantity) // remplacer 1 par le prix au litre
     }.bind(this))
 }
 
-GameController.prototype.waterComsuptionTimer = function () {
-    this.interval = setInterval(this.waterComsuption, 1000)
+GameController.prototype.gardening = function() {
+    this.watering();
+    this.waterComsuption();
+    this.loseCondition();
 }
 
-GameController.prototype.waterComsuption = function () {
-    this.fields.forEach(function (field) {
-        field.waterSupplie -= field.comsuption;
-        field.comsuption = Math.pow(parseFloat(field.comsuption), 2) / 800000 + 1
-        if (field.comsuption > 2) {
-            field.comsuption = 2;
+
+
+GameController.prototype.waterComsuption = function() {
+    this.gameOverTimer += 1
+    this.fields.forEach(function(field) {
+        field.waterSupplie -= Math.floor(parseFloat(field.consumption));
+        if (field.waterSupplie < 0) {
+            field.waterSupplie = 0;
+        }
+        field.consumption = Math.pow(parseFloat(this.gameOverTimer), 2) / 800000 + 1
+        if (field.consumption > 2) {
+            field.consumption = 2;
         }
     }, this);
 }
 
-GameController.prototype.looseCondition = function () {
-    if (this.fields[0].harvestProgress === 0 && this.fields[1].harvestProgress === 0 && this.fields[2].harvestProgress === 0) {
-        this.gameOver();
-    }
-
+GameController.prototype.watering = function() {
+    this.fields.forEach(function(field) {
+        if (field.waterSupplie > 0) {
+            field.harvestProgress += 10
+        } else {
+            field.harvestProgress -= 10
+            if (field.harvestProgress < 0) {
+                field.harvestProgress = 0;
+            }
+        }
+    }, this);
 }
 
-GameController.prototype.gameOver = function () {
+
+
+GameController.prototype.loseCondition = function() {
+    var lostCount = 0;
+    this.fields.forEach(function(field) {
+        if (field.harvestProgress === 0) {
+            lostCount++
+        }
+    });
+    // if (lostCount >= this.fields.length) {
+    //     this.gameOver();
+    // }
+
+    if (this.gameOverTimer > 900) {
+        this.gameOver();
+    }
+}
+
+GameController.prototype.gameOver = function() {
+    clearInterval(this.interval);
     console.log('Game Over');
     // ouvrir la fenètre permettant de rentrer son nom et envoyer le score au serveur
 }
 
 
-GameController.prototype.update = function (label, data) {
+GameController.prototype.update = function(label, data) {
 
     if (label == 'recolte_mure') {
 
