@@ -50,7 +50,6 @@ GameView.prototype.init = function() {
 
 GameView.prototype.waterBought = function(e) {
     e.preventDefault();
-    $('#water').html(this.user.water)
     var liters = $('#eau-qty').val();
     this.emit('water-bought', {
         quantity: liters
@@ -65,7 +64,6 @@ GameView.prototype.addWater = function(nb) {
 }
 
 GameView.prototype.harvest = function(nb) {
-    console.log('harvest field ' + nb);
     $('#recolt-chp' + nb).css('color', 'red');
     $('#recolt-chp' + nb).prop("disabled", true);
 

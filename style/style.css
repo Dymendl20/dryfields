@@ -1,13 +1,17 @@
 #infos {
     display: flex;
+    /*margin: auto*/
 }
 
 #infos>div {
-    margin: 5px
+    margin: auto
 }
 
 #fields {
-    display: flex
+    display: flex;
+    justify-content: space-between
 }
 
-#fields>div {}
+#fields>div {
+    margin: auto
+}
