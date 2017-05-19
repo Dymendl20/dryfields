@@ -16,21 +16,24 @@ GameView.prototype.init = function() {
     $('#achat-eau').hide();
     $('#scores').hide();
 
-    $('#popin-eau').click(this.buyWater.bind(this))
+    $('#popin-eau').click(this.buyWater.bind(this));
 
     $('#eau-qty').attr({
         min: 0,
         max: this.user.money / this.config.waterPrice
-    })
+    });
 
-    // $('#water-price').html(this.config.waterPrice * $('#eau-qty').val());
-    // console.log($('#eau-qty').val() * this.config.waterPrice);
+    $('#water-price').html(Math.round((this.config.waterPrice * $('#eau-qty').val()) * 10) / 10);
+
+    $('#eau-qty').on('input', (function() {
+        $('#water-price').html(Math.round((this.config.waterPrice * $('#eau-qty').val()) * 10) / 10);
+    }).bind(this));
 
     $('#menu-achat').submit(this.waterBought.bind(this))
 
     this.fields.forEach(function(field, number) {
         $('#citerne-champ' + field.id).html(field.waterSupplie);
-        $('#etat-champ' + field.id).html(field.harvestProgress);
+        $('#etat-champ' + field.id).val(field.harvestProgress);
 
         $('#irrig-chp' + field.id).click(this.addWater.bind(this, field.id));
 
@@ -42,7 +45,8 @@ GameView.prototype.init = function() {
 
         field.on('harvest-update', function(data) {
             $('#citerne-champ' + field.id).html(data.water);
-            $('#etat-champ' + field.id).html(data.progress);
+            $('#etat-champ' + field.id).val(data.progress);
+            $('#etat-champ' + field.id + '>span').val(data.progress);
         })
 
         field.on('update-water', function() {
@@ -58,6 +62,12 @@ GameView.prototype.init = function() {
     }).bind(this));
     this.user.on('update-money', (function() {
         $('#money').html(this.user.money);
+    }).bind(this));
+    this.user.on('scores', (function(resp) {
+        console.log(resp);
+        resp.list.forEach(function(score) {
+            $('#scores-list').append('<li>' + score.name + ': ' + score.score + '</li>');
+        })
     }).bind(this));
 }
 
@@ -89,6 +99,10 @@ GameView.prototype.waterBought = function(e) {
 
 GameView.prototype.buyWater = function(nb) {
     this.emit('pause');
+    this.fields.forEach(function(field) {
+        $('#recolt-chp' + field.id).prop("disabled", true);
+        $('#irrig-chp' + field.id).prop("disabled", true);
+    });
     $('#achat-eau').show();
 }
 

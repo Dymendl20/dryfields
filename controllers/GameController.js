@@ -44,6 +44,10 @@ GameController.prototype.init = function() {
         this.interval = null;
     }).bind(this))
     this.view.on('unpause', (function() {
+        this.fields.forEach(function(field) {
+            $('#recolt-chp' + field.id).prop("disabled", false);
+            $('#irrig-chp' + field.id).prop("disabled", false);
+        });
         this.interval = setInterval(this.gardening.bind(this), 1000);
     }).bind(this))
 }
@@ -52,8 +56,8 @@ GameController.prototype.gardening = function() {
     this.config.getCurrencies((function() {
         this.gameOverTimer += 1
         console.log(this.gameOverTimer);
-        this.watering();
         this.waterComsuption();
+        this.watering();
         this.loseCondition();
         this.fields.forEach(function(field) {
             field.update();
@@ -66,8 +70,8 @@ GameController.prototype.gardening = function() {
 GameController.prototype.waterComsuption = function() {
 
     this.fields.forEach(function(field) {
-        if (field.harvestProgress <= 100) {
-            field.setWater(Math.floor((field.waterSupplie - field.consumption) * 100) / 100);
+        if (field.harvestProgress < 100) {
+            field.setWater(field.waterSupplie - field.consumption);
             if (field.waterSupplie < 0) {
                 field.waterSupplie = 0;
             }
@@ -83,11 +87,11 @@ GameController.prototype.waterComsuption = function() {
 
 GameController.prototype.watering = function() {
     this.fields.forEach(function(field) {
-        if (field.waterSupplie > field.consumption && field.harvestProgress <= 100) {
+        if (field.waterSupplie >= field.consumption && field.harvestProgress <= 100) {
             field.harvestProgress += 10;
         }
 
-        if (field.waterSupplie <= field.consumption && field.harvestProgress <= 100) {
+        if (field.waterSupplie < field.consumption && field.harvestProgress < 100) {
             field.harvestProgress = 0;
 
         }
@@ -120,4 +124,7 @@ GameController.prototype.gameOver = function() {
     console.log('Game Over');
     // ouvrir la fenêtre permettant de rentrer son nom et envoyer le score au serveur
     this.view.showScore();
+    var audio = new Audio('sounds/bon_cassez_vous.mp3');
+    console.log(audio)
+    audio.play();
 }

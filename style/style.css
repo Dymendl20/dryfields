@@ -57,3 +57,14 @@ body {
     border-radius: 10px;
     padding: 2rem;
 }
+
+progress {
+    /* ici les styles généraux */
+    border-radius: 15px;
+}
+
+progress::-moz-progress-bar {
+    /* styles de barre d'avancement pour Firefox */
+    background: #ff8000;
+    border-radius: 15px;
+}

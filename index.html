@@ -37,8 +37,9 @@
             <div>
                 Réserves: <span id="citerne-champ1"></span>
             </div>
+
             <div>
-                Progression: <span id="etat-champ1"></span>%
+                Progression: <progress id="etat-champ1" max="100"><span ></span>% </progress>
             </div>
             <button id="recolt-chp1">Récoltez moi !</button>
         </div>
@@ -48,7 +49,7 @@
                 Réserves: <span id="citerne-champ2"></span>
             </div>
             <div>
-                Progression: <span id="etat-champ2"></span>%
+                Progression: <progress id="etat-champ2" max="100"><span ></span>% </progress>
             </div>
             <button id="recolt-chp2">Récoltez moi !</button>
         </div>
@@ -58,7 +59,7 @@
                 Réserves: <span id="citerne-champ3"></span>
             </div>
             <div>
-                Progression: <span id="etat-champ3"></span>%
+                Progression: <progress id="etat-champ3" max="100"><span ></span>% </progress>
             </div>
             <button id="recolt-chp3">Récoltez moi !</button>
         </div>
@@ -67,9 +68,7 @@
     <section id="water">
         <button id="popin-eau">Acheter de l'eau</button>
         <div id="achat-eau">
-            <div id="water-price">
-
-            </div>
+            <div id="water-price"></div>
             <form id="menu-achat">
                 <input type="number" name="quantity" id="eau-qty">
                 <input type="submit" name="buy" value="Acheter">

@@ -33,14 +33,13 @@ User.prototype.update = function() {
 
 User.prototype.postScore = function(username) {
     $.ajax({
-            method: "POST",
-            url: 'http://10.1.108.8:3000/scores',
-            data: { name: username, score: this.harvests }
-        })
-        .done(function(resp) {
-            resp.list.forEach(function(score) {
-                $('#scores-list').append('<li>' + score.name + ': ' + score.score + '</li>');
-            })
-        });
-
+        // method: "POST",
+        // url: 'http://10.1.108.8:3000/scores',
+        // data: { name: username, score: this.harvests }
+        method: "GET",
+        url: 'http://10.1.108.8:3000/scores',
+        success: (function(resp) {
+            this.emit('scores', resp);
+        }).bind(this)
+    })
 }

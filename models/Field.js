@@ -4,7 +4,7 @@ function Field() {
     EventEmitter.call(this);
     this.id = i;
     i++;
-    this.harvestProgress = 10;
+    this.harvestProgress = 5;
     this.waterSupplie = 3;
     this.consumption = 1;
 }
