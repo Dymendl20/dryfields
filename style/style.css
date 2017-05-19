@@ -1,17 +1,59 @@
+body {
+    font-family: arial;
+}
+
 #infos {
     display: flex;
-    /*margin: auto*/
+    margin: 10px;
+    padding: 1rem;
+    background: #617bc0;
+    color: #fff;
+    border-radius: 10px;
 }
 
 #infos>div {
-    margin: auto
+    margin: auto;
 }
 
 #fields {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
 #fields>div {
-    margin: auto
+    width: 200px;
+    height: 300px;
+    text-align: center;
+    background: #008000;
+    border-radius: 10px;
+    margin: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#fields>div>button {
+    text-align: center;
+    background: #746f4e;
+    border-radius: 10px;
+    /*border-style: none;*/
+    padding: 1rem;
+}
+
+#water {
+    display: flex;
+    margin: 2rem;
+    justify-content: flex-end;
+    margin-right: 10%
+}
+
+#water>button {
+    padding: 2rem;
+}
+
+#water>div {
+    background: #0080ff;
+    border-radius: 10px;
+    padding: 2rem;
 }

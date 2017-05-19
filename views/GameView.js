@@ -51,6 +51,20 @@ GameView.prototype.init = function() {
 }
 
 
+GameView.prototype.showScore = function(e) {
+    $('#infos').hide();
+    $('#fields').hide();
+    $('#water').hide();
+    $.getJSON('http://10.1.108.8:3000/scores')
+        .done(function(json) {
+            $('#scores>div').html(json.list);
+        })
+        .fail(function(jqxhr, textStatus, error) {
+            var err = textStatus + ", " + error;
+            console.log("Request Failed: " + err);
+        });
+}
+
 GameView.prototype.waterBought = function(e) {
     e.preventDefault();
     var liters = $('#eau-qty').val();

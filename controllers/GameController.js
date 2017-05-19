@@ -1,8 +1,9 @@
-function GameController(fields, user, view) {
+function GameController(fields, user, view, config) {
     EventEmitter.call(this);
     this.fields = fields;
     this.user = user;
     this.view = view;
+    this.config = config;
     this.gameOverTimer = 0;
     this.init();
 }
@@ -17,14 +18,14 @@ GameController.prototype.init = function() {
     this.watering();
     this.view.on('harvest', (function(data) {
         this.user.setHarvests(this.user.harvests + 1)
-        this.user.setMoney(this.user.money + 50); // remplacer 50 par la valeur de la vente
+        this.user.setMoney(this.user.money + this.config.harvestGain); // remplacer 50 par la valeur de la vente
         this.fields[data.number - 1].harvestProgress = 0;
     }).bind(this))
 
     this.view.on('water-bought', (function(data) {
         if (this.user.money > 0) {
             this.user.setWater(this.user.water + parseInt(data.quantity));
-            this.user.setMoney(this.user.money - parseFloat(this.fields[0].waterPrice * data.quantity))
+            this.user.setMoney(this.user.money - parseFloat(this.config.waterPrice * data.quantity))
         }
     }).bind(this))
     this.view.on('watered', (function(data) {
@@ -110,7 +111,8 @@ GameController.prototype.loseCondition = function() {
 GameController.prototype.gameOver = function() {
     clearInterval(this.interval);
     console.log('Game Over');
-    // ouvrir la fenètre permettant de rentrer son nom et envoyer le score au serveur
+    // ouvrir la fenêtre permettant de rentrer son nom et envoyer le score au serveur
+    this.view.showScore();
 }
 
 

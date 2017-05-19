@@ -8,6 +8,7 @@
     <link href="./style/style.css" rel="stylesheet">
     <script src="./tools/jquery-3.2.1.js"></script>
     <script src="./tools/EventEmitter.js"></script>
+    <script src="./config/Config.js"></script>
     <script src="./controllers/GameController.js"></script>
     <script src="./models/Field.js"></script>
     <script src="./models/User.js"></script>
@@ -33,43 +34,52 @@
     <section id="fields">
         <div id=1>
             <button id="irrig-chp1">Remplir</button>
-            <div id="citerne-champ1">
-
+            <div>
+                Réserves: <span id="citerne-champ1"></span>
             </div>
-            <div id="etat-champ1">
-
+            <div>
+                Progression: <span id="etat-champ1"></span>%
             </div>
             <button id="recolt-chp1">Récoltez moi !</button>
         </div>
         <div id=2>
             <button id="irrig-chp2">Remplir</button>
-            <div id="citerne-champ2">
-
+            <div>
+                Réserves: <span id="citerne-champ2"></span>
             </div>
-            <div id="etat-champ2">
-
+            <div>
+                Progression: <span id="etat-champ2"></span>%
             </div>
             <button id="recolt-chp2">Récoltez moi !</button>
         </div>
         <div id=3>
             <button id="irrig-chp3">Remplir</button>
-            <div id="citerne-champ3">
-
+            <div>
+                Réserves: <span id="citerne-champ3"></span>
             </div>
-            <div id="etat-champ3">
-
+            <div>
+                Progression: <span id="etat-champ3"></span>%
             </div>
             <button id="recolt-chp3">Récoltez moi !</button>
         </div>
 
     </section>
-    <button id="popin-eau">Acheter de l'eau</button>
-    <section id="achat-eau">
-        <form id="menu-achat">
-            <input type="number" name="quantity" id="eau-qty">
-            <input type="submit" name="buy" value="Acheter">
-        </form>
+    <section id="water">
+        <button id="popin-eau">Acheter de l'eau</button>
+        <div id="achat-eau">
+            <form id="menu-achat">
+                <input type="number" name="quantity" id="eau-qty">
+                <input type="submit" name="buy" value="Acheter">
+            </form>
+        </div>
     </section>
+
+    <section id="scores">
+        <div>
+
+        </div>
+    </section>
+
 </body>
 
 </html>

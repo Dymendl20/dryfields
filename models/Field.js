@@ -5,10 +5,8 @@ function Field() {
     this.id = i;
     i++;
     this.harvestProgress = 10;
-    this.waterSupplie = 300;
+    this.waterSupplie = 3;
     this.consumption = 1;
-    this.waterPrice = 1;
-    this.harvestGain = 50;
 }
 
 Field.prototype = Object.create(EventEmitter.prototype);
