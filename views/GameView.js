@@ -1,7 +1,8 @@
-function GameView(fields, user) {
+function GameView(fields, user, config) {
     EventEmitter.call(this);
     this.fields = fields;
     this.user = user;
+    this.config = config;
     this.init();
 }
 
@@ -10,13 +11,23 @@ GameView.prototype.conscructor = GameView;
 
 GameView.prototype.init = function() {
     $('#harvests').html(this.user.harvests);
-    $('#water').html(this.user.water);
+    $('#water-reserve').html(this.user.water);
     $('#money').html(this.user.money);
     $('#achat-eau').hide();
+    $('#scores').hide();
 
     $('#popin-eau').click(this.buyWater.bind(this))
 
+    $('#eau-qty').attr({
+        min: 0,
+        max: this.user.money / this.config.waterPrice
+    })
+
+    // $('#water-price').html(this.config.waterPrice * $('#eau-qty').val());
+    // console.log($('#eau-qty').val() * this.config.waterPrice);
+
     $('#menu-achat').submit(this.waterBought.bind(this))
+
     this.fields.forEach(function(field, number) {
         $('#citerne-champ' + field.id).html(field.waterSupplie);
         $('#etat-champ' + field.id).html(field.harvestProgress);
@@ -43,7 +54,7 @@ GameView.prototype.init = function() {
         $('#harvests').html(this.user.harvests);
     }).bind(this));
     this.user.on('update-water', (function() {
-        $('#water').html(this.user.water);
+        $('#water-reserve').html(this.user.water);
     }).bind(this));
     this.user.on('update-money', (function() {
         $('#money').html(this.user.money);
@@ -55,14 +66,15 @@ GameView.prototype.showScore = function(e) {
     $('#infos').hide();
     $('#fields').hide();
     $('#water').hide();
-    $.getJSON('http://10.1.108.8:3000/scores')
-        .done(function(json) {
-            $('#scores>div').html(json.list);
-        })
-        .fail(function(jqxhr, textStatus, error) {
-            var err = textStatus + ", " + error;
-            console.log("Request Failed: " + err);
-        });
+    $('#scores').show();
+    $('#score-user').text(this.user.harvests).bind(this);
+    $('#scores-form').submit(this.postScore.bind(this));
+}
+
+GameView.prototype.postScore = function(e) {
+    e.preventDefault();
+    var name = $('#user-name').val()
+    this.user.postScore(name);
 }
 
 GameView.prototype.waterBought = function(e) {
@@ -84,7 +96,6 @@ GameView.prototype.addWater = function(nb) {
     this.emit('watered', {
         number: nb
     });
-
 }
 
 GameView.prototype.harvest = function(nb) {
@@ -94,5 +105,4 @@ GameView.prototype.harvest = function(nb) {
     this.emit('harvest', {
         number: nb
     });
-
 }

@@ -13,7 +13,7 @@ Field.prototype = Object.create(EventEmitter.prototype);
 Field.prototype.constructor = Field;
 
 Field.prototype.setWater = function(water) {
-    this.waterSupplie = water;
+    this.waterSupplie = Math.floor((water) * 10) / 10;
     this.emit('update-water');
 }
 

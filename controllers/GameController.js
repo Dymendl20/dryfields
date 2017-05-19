@@ -18,15 +18,19 @@ GameController.prototype.init = function() {
     this.watering();
     this.view.on('harvest', (function(data) {
         this.user.setHarvests(this.user.harvests + 1)
-        this.user.setMoney(this.user.money + this.config.harvestGain); // remplacer 50 par la valeur de la vente
+        this.user.setMoney(this.user.money + this.config.harvestGain);
         this.fields[data.number - 1].harvestProgress = 0;
+        $('#eau-qty').attr({
+            max: this.user.money / this.config.waterPrice
+        }).val(0);
     }).bind(this))
 
     this.view.on('water-bought', (function(data) {
-        if (this.user.money > 0) {
-            this.user.setWater(this.user.water + parseInt(data.quantity));
-            this.user.setMoney(this.user.money - parseFloat(this.config.waterPrice * data.quantity))
-        }
+        this.user.setWater(this.user.water + parseInt(data.quantity));
+        this.user.setMoney(this.user.money - parseFloat(this.config.waterPrice * data.quantity));
+        $('#eau-qty').attr({
+            max: this.user.money / this.config.waterPrice
+        }).val(0);
     }).bind(this))
     this.view.on('watered', (function(data) {
         if (this.user.water > 0) {
@@ -37,6 +41,7 @@ GameController.prototype.init = function() {
     }).bind(this))
     this.view.on('pause', (function() {
         clearInterval(this.interval);
+        this.interval = null;
     }).bind(this))
     this.view.on('unpause', (function() {
         this.interval = setInterval(this.gardening.bind(this), 1000);
@@ -44,43 +49,45 @@ GameController.prototype.init = function() {
 }
 
 GameController.prototype.gardening = function() {
-    this.watering();
-    this.waterComsuption();
-    this.loseCondition();
-    this.fields.forEach(function(field) {
-        field.update();
-        field.fieldReady();
-    }, this);
-    this.user.update();
+    this.config.getCurrencies((function() {
+        this.gameOverTimer += 1
+        console.log(this.gameOverTimer);
+        this.watering();
+        this.waterComsuption();
+        this.loseCondition();
+        this.fields.forEach(function(field) {
+            field.update();
+            field.fieldReady();
+        }, this);
+        this.user.update();
+    }).bind(this));
 }
 
 GameController.prototype.waterComsuption = function() {
-    this.gameOverTimer += 1
-    console.log(this.gameOverTimer);
+
     this.fields.forEach(function(field) {
-        if (field.harvestProgress < 100) {
-            field.waterSupplie -= (parseFloat(field.consumption));
+        if (field.harvestProgress <= 100) {
+            field.setWater(Math.floor((field.waterSupplie - field.consumption) * 100) / 100);
             if (field.waterSupplie < 0) {
                 field.waterSupplie = 0;
             }
-            field.consumption = Math.round(Math.pow(parseFloat(this.gameOverTimer), 2) / 800000 + 1)
-                // field.consumption = Math.round((Math.pow(parseFloat(this.gameOverTimer), 2) / 800000 + 1) * 100) / 100
-                // field.consumption = field.consumption + 0.01
+            // field.consumption = Math.pow(parseFloat(this.gameOverTimer), 2) / 800000 + 1;
+            field.consumption = field.consumption + 0.01;
             if (field.consumption > 2) {
                 field.consumption = 2;
             }
         }
+        console.log('Consomation :' + field.consumption)
     }, this);
-    // console.log('consommation: ' + this.fields[0].consumption)
 }
 
 GameController.prototype.watering = function() {
     this.fields.forEach(function(field) {
-        if (field.waterSupplie > 0 && field.harvestProgress < 100) {
+        if (field.waterSupplie > field.consumption && field.harvestProgress <= 100) {
             field.harvestProgress += 10;
         }
 
-        if (field.waterSupplie <= 0 && field.harvestProgress < 100) {
+        if (field.waterSupplie <= field.consumption && field.harvestProgress <= 100) {
             field.harvestProgress = 0;
 
         }
@@ -113,12 +120,4 @@ GameController.prototype.gameOver = function() {
     console.log('Game Over');
     // ouvrir la fenêtre permettant de rentrer son nom et envoyer le score au serveur
     this.view.showScore();
-}
-
-
-GameController.prototype.update = function(label, data) {
-
-    if (label == 'recolte_mure') {
-        this.view.setRecolter(data.recolter);
-    }
 }
