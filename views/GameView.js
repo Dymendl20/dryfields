@@ -57,11 +57,13 @@ GameView.prototype.waterBought = function(e) {
     this.emit('water-bought', {
         quantity: liters
     });
+    this.emit('unpause');
+    $('#achat-eau').hide();
 }
 
 GameView.prototype.buyWater = function(nb) {
     this.emit('pause');
-    $('#achat-eau').toggle();
+    $('#achat-eau').show();
 }
 
 GameView.prototype.addWater = function(nb) {

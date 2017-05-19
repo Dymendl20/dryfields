@@ -35,7 +35,10 @@ GameController.prototype.init = function() {
         }
     }).bind(this))
     this.view.on('pause', (function() {
-
+        clearInterval(this.interval);
+    }).bind(this))
+    this.view.on('unpause', (function() {
+        this.interval = setInterval(this.gardening.bind(this), 1000);
     }).bind(this))
 }
 
@@ -52,6 +55,7 @@ GameController.prototype.gardening = function() {
 
 GameController.prototype.waterComsuption = function() {
     this.gameOverTimer += 1
+    console.log(this.gameOverTimer);
     this.fields.forEach(function(field) {
         if (field.harvestProgress < 100) {
             field.waterSupplie -= (parseFloat(field.consumption));
@@ -66,7 +70,7 @@ GameController.prototype.waterComsuption = function() {
             }
         }
     }, this);
-    console.log('consommation: ' + this.fields[0].consumption)
+    // console.log('consommation: ' + this.fields[0].consumption)
 }
 
 GameController.prototype.watering = function() {
