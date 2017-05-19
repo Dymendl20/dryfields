@@ -12,6 +12,9 @@ GameView.prototype.init = function() {
     $('#harvests').html(this.user.harvests);
     $('#water').html(this.user.water);
     $('#money').html(this.user.money);
+    $('#achat-eau').hide();
+
+    $('#popin-eau').click(this.buyWater.bind(this))
 
     $('#menu-achat').submit(this.waterBought.bind(this))
     this.fields.forEach(function(field, number) {
@@ -54,6 +57,11 @@ GameView.prototype.waterBought = function(e) {
     this.emit('water-bought', {
         quantity: liters
     });
+}
+
+GameView.prototype.buyWater = function(nb) {
+    this.emit('pause');
+    $('#achat-eau').toggle();
 }
 
 GameView.prototype.addWater = function(nb) {

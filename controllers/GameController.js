@@ -34,6 +34,9 @@ GameController.prototype.init = function() {
             this.user.setWater(this.user.water - 1);
         }
     }).bind(this))
+    this.view.on('pause', (function() {
+
+    }).bind(this))
 }
 
 GameController.prototype.gardening = function() {
